@@ -42,6 +42,11 @@ POSTGRES_USER="USER"
 
 ## Rodando com Docker
 
+O cwd dever ser o ./docker
+```bash
+cd /docker 
+```
+
 ```bash
 docker compose up --build        # Build and start
 docker compose up --build -d     # Detached mode
