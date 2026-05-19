@@ -18,12 +18,6 @@ class DataRange:
 def check_date(data_inicio: Optional[date] = Query(None),
         data_fim: Optional[date] = Query(None)) -> DataRange:
 
-    if (data_inicio and not data_fim) or (data_fim and not data_inicio):
-        raise HTTPException(
-                status_code=422,
-                detail="É necessário data_inicio e data_fim juntos"
-                )
-
     if (data_inicio and data_fim) and data_inicio > data_fim:
          raise HTTPException(
                 status_code=422,

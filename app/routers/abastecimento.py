@@ -8,7 +8,7 @@ from app.repositories.abastecimento import add_db, dados_abastecimentos
 from app.schemas.abastecimento import AbastecimentoModel, AbastecimentoSchema
 from app.schemas.enums import TipoCombustivel
 from app.schemas.filtro import DataRange, check_date
-from app.schemas.paginacao import ParametrosPaginacao
+from app.schemas.paginacao import ParametrosPaginacao, ResultadoPaginado
 from app.services.abastecimento import is_improper_data
 
 router = APIRouter(prefix="/abastecimentos")
@@ -33,12 +33,16 @@ async def get_abastecimentos(session: SessionDep,
                        data: DataRange = Depends(check_date),
                        paginacao: ParametrosPaginacao = Depends(),
                        tipo_combustivel: Optional[TipoCombustivel] = None
-
-                       ):
+                       ) -> ResultadoPaginado[AbastecimentoModel]:
 
     result = await dados_abastecimentos(session, paginacao, tipo_combustivel, data)
     result = [AbastecimentoModel.model_validate(m) for m in result]
 
-    return result
+    return ResultadoPaginado(
+            total=len(result),
+            page=paginacao.page,
+            size=paginacao.size,
+            data=result
+            )
 
 
