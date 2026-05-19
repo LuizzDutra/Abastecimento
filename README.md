@@ -17,10 +17,11 @@
 cp .env.example .app/.env
 ```
 
+
 ```env
 # .env.example
-LOCAL_DB_URL="postgres+asyncpg://username:password@host:port/database"
-DB_URL="postgres+asyncpg://username:password@host:port/database"
+LOCAL_DB_URL="postgresql+asyncpg://username:password@db:5433/database"
+DB_URL="postgresql+asyncpg://username:password@db:5432/database"
 VERSION="V1.0.0"
 ```
 
@@ -95,4 +96,12 @@ uv run ruff check
 
 ```
 uv run ruff format
+```
+
+## Pytest
+
+Para realizar os teste do pytest execute
+
+```
+uv run -m pytest
 ```
