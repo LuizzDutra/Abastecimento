@@ -105,3 +105,19 @@ Para realizar os teste do pytest execute
 ```
 uv run -m pytest
 ```
+
+
+## Decisões e Trade-offs
+
+O projeto foi contruído seguindo um arquitetura em camadas como definido no documento de instruções.
+
+**Como decisão:** <br>
+Ao realizar a query get do endpoints /abastecimentos, os resultados sempre são order_by id.<br>
+Na root do app o arquivo api.py define a junção de todos os routers de /routers e define o endpoint /health<br>
+Para o endpoint /health foi realizada uma query SELECT 1 para definir o status do banco de dados e returna estado 503 caso haja algum problema.<br>
+Os valores de preço possuem duas casas decimais e os valores de volume abastecido possuem 3 para contemplar o formato Litros.mililitros<br>
+
+**Como trade-offs:** <br>
+Para acelerar o processo de criação os campos Decimais aceitam valores number e não apenas strings numéricas, permitindo perca de precisão em alguns casos antes de chegar ao validador.<br>
+A média de preço é definidade de meio "hardcoded" como um dict, ao invés de serem cálculadas no banco e salvas em um cache ou usem de referência valores externos.<br>
+
