@@ -3,10 +3,6 @@ from functools import lru_cache
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-#Configura precisão do Decimal
-#Precisão suficiente para os precos(2) e volume(3)
-getcontext().prec = 3
-
 
 class Config(BaseSettings):
     #Ao usar docker compose o host será "db"
