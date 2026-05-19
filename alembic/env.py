@@ -11,10 +11,13 @@ from app.core.config import config as app_config
 from app.core.db import Base
 from app.models.abastecimento import Abastecimento
 
+from os import getenv
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-config.set_main_option("sqlalchemy.url", app_config().DB_URL)
+db_url = app_config().DB_URL if getenv("PROD") else app_config().LOCAL_DB_URL
+config.set_main_option("sqlalchemy.url", db_url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
