@@ -12,4 +12,10 @@ RUN uv sync --frozen --no-cache
 
 
 COPY app/ ./app/
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+COPY alembic/ ./alembic/
+COPY alembic.ini ./
+COPY docker/entrypoint.sh ./
+
+EXPOSE 80
+RUN chmod +x /app/entrypoint.sh
+CMD ["/app/entrypoint.sh"]

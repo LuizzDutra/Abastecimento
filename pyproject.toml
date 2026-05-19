@@ -23,6 +23,8 @@ target-version = "py310"
 # Set the maximum line length (matches Black's default)
 line-length = 88
 
+exclude = ["alembic"]
+
 [tool.ruff.lint]
 # Enable specific rule categories
 # E/W = Pycodestyle (errors/warnings), F = Pyflakes, I = Isort (import sorting)
