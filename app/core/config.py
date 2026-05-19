@@ -4,7 +4,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Config(BaseSettings):
-    DB_URL: str = ""
+    #Ao usar docker compose o host será "db"
+    DB_URL: str = "dialect+driver://username:password@host:port/database"
     VERSION: str = "V1.0.0"
 
     model_config = SettingsConfigDict(env_file="./.env")

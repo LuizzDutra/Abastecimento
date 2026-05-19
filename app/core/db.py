@@ -1,9 +1,10 @@
 from typing import Annotated
 
 from fastapi import Depends
-from server.core.config import config
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
+
+from app.core.config import config
 
 db_url = config().DB_URL
 

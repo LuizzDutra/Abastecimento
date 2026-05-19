@@ -1,0 +1,24 @@
+services:
+  api:
+    depends_on:
+      db:
+        condition: service_started
+    build: 
+      context: ..
+      dockerfile: /docker/Dockerfile
+    image: app_abastecimento
+    env_file: ../app/.env
+    ports: ["80:80"]
+    container_name: app_abastecimento
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://api/api/v1/health').getcode()"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 3s
+  db:
+    image: postgres
+    env_file: postgres/.env
+    container_name: database_abastecimento
+    ports: ["5433:5432"]
+    expose: ["5432"]
