@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, status
 
 from app.core.db import SessionDep
 from app.models.abastecimento import Abastecimento
-from app.repositories.abastecimento import add_db
+from app.repositories.abastecimento import add_db, dados_abastecimentos
 from app.schemas.abastecimento import AbastecimentoModel, AbastecimentoSchema
 from app.schemas.enums import TipoCombustivel
 from app.schemas.filtro import DataRange, check_date
@@ -36,7 +36,9 @@ async def get_abastecimentos(session: SessionDep,
 
                        ):
 
+    result = await dados_abastecimentos(session, paginacao, tipo_combustivel, data)
+    result = [AbastecimentoModel.model_validate(m) for m in result]
 
-    return "ok"
+    return result
 
 
