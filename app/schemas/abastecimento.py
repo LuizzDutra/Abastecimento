@@ -1,8 +1,15 @@
 from datetime import datetime, timezone
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import ROUND_HALF_UP, Decimal
 from typing import Annotated
 
-from pydantic import AfterValidator, BaseModel, ConfigDict, Field, field_validator, field_serializer
+from pydantic import (
+    AfterValidator,
+    BaseModel,
+    ConfigDict,
+    Field,
+    field_serializer,
+    field_validator,
+)
 
 from app.core.validators.cpf import validate as cpf_validator
 from app.schemas.enums import TipoCombustivel
@@ -37,7 +44,7 @@ class AbastecimentoSchema(BaseModel):
     @field_validator("volume_abastecido", mode="before")
     @classmethod
     def validate_volume(cls, v):
-        return AbastecimentoSchema._parse_decimal(v, "0.001")   
+        return AbastecimentoSchema._parse_decimal(v, "0.001")
 
     #Checka decimal e aplica precisão
     @staticmethod
@@ -46,7 +53,7 @@ class AbastecimentoSchema(BaseModel):
             return Decimal(str(d)).quantize(Decimal(precision), rounding=ROUND_HALF_UP)
         except Exception:
             raise ValueError("Valor decimal inválido")
-    
+
     #Retorno será em string para preserver precisão
     @field_serializer('preco_por_litro', 'volume_abastecido')
     def serialize_decimal(self, value: Decimal) -> str:
