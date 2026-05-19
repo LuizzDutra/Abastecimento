@@ -5,9 +5,7 @@ from pydantic import BaseModel
 
 
 class ParametrosPaginacao:
-    def __init__(
-        self, size: int = Query(20, gt=0, le=100), page: int = Query(1, gt=0)
-    ):
+    def __init__(self, size: int = Query(20, gt=0, le=100), page: int = Query(1, gt=0)):
         self.size = size
         self.page = page
 

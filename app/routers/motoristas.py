@@ -13,4 +13,3 @@ async def get_motorista_cpf(cpf: CPF, session: SessionDep):
     result = await get_abastecimentos_motorista(session, cpf)
 
     return result
-

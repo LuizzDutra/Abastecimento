@@ -25,24 +25,17 @@ async def post_abastecimentos(session: SessionDep, dados: AbastecimentoSchema):
     return AbastecimentoModel.model_validate(dados_instance)
 
 
-
-
-
 @router.get("/")
-async def get_abastecimentos(session: SessionDep,
-                       data: DataRange = Depends(check_date),
-                       paginacao: ParametrosPaginacao = Depends(),
-                       tipo_combustivel: Optional[TipoCombustivel] = None
-                       ) -> ResultadoPaginado[AbastecimentoModel]:
+async def get_abastecimentos(
+    session: SessionDep,
+    data: DataRange = Depends(check_date),
+    paginacao: ParametrosPaginacao = Depends(),
+    tipo_combustivel: Optional[TipoCombustivel] = None,
+) -> ResultadoPaginado[AbastecimentoModel]:
 
     result = await dados_abastecimentos(session, paginacao, tipo_combustivel, data)
     result = [AbastecimentoModel.model_validate(m) for m in result]
 
     return ResultadoPaginado(
-            total=len(result),
-            page=paginacao.page,
-            size=paginacao.size,
-            data=result
-            )
-
-
+        total=len(result), page=paginacao.page, size=paginacao.size, data=result
+    )

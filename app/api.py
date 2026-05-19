@@ -12,7 +12,6 @@ api_router.include_router(router_abastecimento)
 api_router.include_router(router_motorista)
 
 
-
 @api_router.get("/health", status_code=200)
 async def health(session: SessionDep):
     db_healthy = True
@@ -24,17 +23,14 @@ async def health(session: SessionDep):
 
     if not db_healthy:
         raise HTTPException(
-                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                detail=StatusSchema(
-                    version= config().VERSION,
-                    status= status.HTTP_503_SERVICE_UNAVAILABLE,
-                    database= status.HTTP_503_SERVICE_UNAVAILABLE
-                    ).model_dump()
-                )
-
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=StatusSchema(
+                version=config().VERSION,
+                status=status.HTTP_503_SERVICE_UNAVAILABLE,
+                database=status.HTTP_503_SERVICE_UNAVAILABLE,
+            ).model_dump(),
+        )
 
     return StatusSchema(
-            version= config().VERSION,
-            status= status.HTTP_200_OK,
-            database= status.HTTP_200_OK
-            )
+        version=config().VERSION, status=status.HTTP_200_OK, database=status.HTTP_200_OK
+    )

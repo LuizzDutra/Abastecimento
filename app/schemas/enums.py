@@ -5,4 +5,3 @@ class TipoCombustivel(str, Enum):
     GASOLINA = "gasolina"
     DIESEL = "diesel"
     ETANOL = "etanol"
-

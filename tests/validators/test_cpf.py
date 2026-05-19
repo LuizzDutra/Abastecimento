@@ -13,7 +13,7 @@ def test_cpf_validator():
         "11111111111",
         "22222222222",
         "",
-        "aaaaaaaaaaa"
+        "aaaaaaaaaaa",
     ]
 
     for cpf in test_cpf_good:

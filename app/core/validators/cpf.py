@@ -1,4 +1,3 @@
-
 def is_valid_cpf(cpf: str) -> bool:
     if len(cpf) != 11:
         return False
@@ -59,5 +58,3 @@ def validate(cpf: str) -> str:
     if not is_valid_cpf(cpf):
         raise ValueError("Invalid CPF")
     return cpf
-
-

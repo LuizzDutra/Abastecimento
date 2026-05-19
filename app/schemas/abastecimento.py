@@ -16,6 +16,7 @@ from app.schemas.enums import TipoCombustivel
 
 CPF = Annotated[str, AfterValidator(cpf_validator)]
 
+
 class AbastecimentoSchema(BaseModel):
     id_posto: int
     data_hora: datetime
@@ -28,14 +29,13 @@ class AbastecimentoSchema(BaseModel):
     @classmethod
     def data_hora_nao_pode_ser_futura(cls, data: datetime) -> datetime:
         if data.tzinfo is None:
-            #Sem timezone é aplicado UTC
+            # Sem timezone é aplicado UTC
             data = data.replace(tzinfo=timezone.utc)
         if data > datetime.now(timezone.utc):
             raise ValueError("data_hora não pode ser no futuro")
         return data.astimezone(timezone.utc)
 
-
-    #Permita aceitar tanto números como string numérica
+    # Permita aceitar tanto números como string numérica
     @field_validator("preco_por_litro", mode="before")
     @classmethod
     def validate_preco(cls, v):
@@ -46,7 +46,7 @@ class AbastecimentoSchema(BaseModel):
     def validate_volume(cls, v):
         return AbastecimentoSchema._parse_decimal(v, "0.001")
 
-    #Checka decimal e aplica precisão
+    # Checka decimal e aplica precisão
     @staticmethod
     def _parse_decimal(d, precision: str) -> Decimal:
         try:
@@ -54,8 +54,8 @@ class AbastecimentoSchema(BaseModel):
         except Exception:
             raise ValueError("Valor decimal inválido")
 
-    #Retorno será em string para preserver precisão
-    @field_serializer('preco_por_litro', 'volume_abastecido')
+    # Retorno será em string para preserver precisão
+    @field_serializer("preco_por_litro", "volume_abastecido")
     def serialize_decimal(self, value: Decimal) -> str:
         return str(value)
 

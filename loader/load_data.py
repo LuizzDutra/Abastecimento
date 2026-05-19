@@ -20,17 +20,14 @@ def gerar_payload():
         "id_posto": fake.random_int(0, 999),
         "data_hora": fake.date_time_this_decade(after_now=False).isoformat(),
         "tipo_combustivel": fake.random_choices(valores_combustivel, 1)[0],
-        "preco_por_litro": str(fake.pydecimal(
-            left_digits=1,
-            right_digits=2,
-            min_value=1,
-            max_value=10)),
-        "volume_abastecido": str(fake.pydecimal(
-            left_digits=5,
-            right_digits=3,
-            min_value=15000,
-            max_value=25000
-            )),
+        "preco_por_litro": str(
+            fake.pydecimal(left_digits=1, right_digits=2, min_value=1, max_value=10)
+        ),
+        "volume_abastecido": str(
+            fake.pydecimal(
+                left_digits=5, right_digits=3, min_value=15000, max_value=25000
+            )
+        ),
         "cpf_motorista": fake.ssn(),
     }
 
@@ -67,8 +64,9 @@ async def main():
 
         print(
             f"O gather de requests durou {end - start} segundos para {r} requisições",
-            flush=True
-            )
+            flush=True,
+        )
+
 
 if __name__ == "__main__":
-   asyncio.run(main())
+    asyncio.run(main())

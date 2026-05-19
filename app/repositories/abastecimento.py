@@ -19,9 +19,10 @@ async def add_db(session: SessionDep, instance: Abastecimento) -> Abastecimento:
 def base_query():
     return select(Abastecimento).order_by(Abastecimento.id)
 
-def paginate(paginacao: ParametrosPaginacao,
-             query: Select[Tuple[Abastecimento]]
-             ) -> Select[Tuple[Abastecimento]]:
+
+def paginate(
+    paginacao: ParametrosPaginacao, query: Select[Tuple[Abastecimento]]
+) -> Select[Tuple[Abastecimento]]:
     return query.limit(paginacao.size).offset((paginacao.page - 1) * paginacao.size)
 
 
@@ -30,26 +31,25 @@ def filter_combustivel(
 ) -> Select[Tuple[Abastecimento]]:
     return query.where(Abastecimento.tipo_combustivel == tipo_combustivel.value)
 
+
 def filter_data(
     data_range: DataRange, query: Select[Tuple[Abastecimento]]
 ) -> Select[Tuple[Abastecimento]]:
     if data_range.data_inicio:
         query = query.where(
-                func.date(Abastecimento.data_hora) >= data_range.data_inicio
-                )
+            func.date(Abastecimento.data_hora) >= data_range.data_inicio
+        )
     if data_range.data_fim:
-        query = query.where(
-                func.date(Abastecimento.data_hora) <= data_range.data_fim
-                )
+        query = query.where(func.date(Abastecimento.data_hora) <= data_range.data_fim)
     return query
 
 
-
-async def dados_abastecimentos(session: SessionDep,
-                               paginacao: ParametrosPaginacao,
-                               tipo_combustivel: Optional[TipoCombustivel],
-                               data_range: DataRange
-                               ):
+async def dados_abastecimentos(
+    session: SessionDep,
+    paginacao: ParametrosPaginacao,
+    tipo_combustivel: Optional[TipoCombustivel],
+    data_range: DataRange,
+):
 
     query = base_query()
     query = filter_data(data_range, query)
@@ -59,5 +59,3 @@ async def dados_abastecimentos(session: SessionDep,
     query = paginate(paginacao, query)
 
     return (await session.execute(query)).scalars().all()
-
-
